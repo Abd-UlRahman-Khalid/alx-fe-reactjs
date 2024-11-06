@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import WelcomeMessage from "./WelcomeMessage";
+import WelcomeMessage from "./components/WelcomeMessage";
 
 function App() {
   const [count, setCount] = useState(0);
