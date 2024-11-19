@@ -19,23 +19,9 @@ const FormikForm = () => {
       .required("Password is required"),
   });
 
-  const handleSubmit = (values, { resetForm }) => {
-    console.log("Formik Form Data Submitted:", values);
-
-    // Simulate API call
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response:", data);
-        resetForm();
-      })
-      .catch((err) => console.error("Error:", err));
+  const handleSubmit = (values) => {
+    console.log("Formik Form Submitted:", values);
+    // Simulate API call here
   };
 
   return (
