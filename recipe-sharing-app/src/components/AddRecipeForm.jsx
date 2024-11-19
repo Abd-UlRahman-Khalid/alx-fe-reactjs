@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRecipeStore } from "./recipeStore";
+import "./AddRecipeForm.css"; // Adjust the path if your CSS file is in a different folder
 
 const AddRecipeForm = () => {
   const addRecipe = useRecipeStore((state) => state.addRecipe);
@@ -16,7 +17,7 @@ const AddRecipeForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="add-recipe-form" onSubmit={handleSubmit}>
       <input
         type="text"
         value={title}

@@ -5,22 +5,37 @@ import RecipeDetails from "./components/RecipeDetails";
 import SearchBar from "./components/SearchBar";
 import FavoritesList from "./components/FavoritesList";
 import RecommendationsList from "./components/RecommendationsList";
+import "./App.css";
 
 function App() {
   return (
     <Router>
-      <h1>Recipe Sharing App</h1>
-      <SearchBar />
-      <AddRecipeForm />
+      <div className="app-container">
+        <h1>Recipe Sharing App</h1>
 
-      {/* Favorites and Recommendations */}
-      <FavoritesList />
-      <RecommendationsList />
-      <Routes>
-        <Route path="/" element={<RecipeList />} />
+        {/* Search Bar */}
+        <div className="search-bar">
+          <SearchBar />
+        </div>
 
-        <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
-      </Routes>
+        {/* Add Recipe Form */}
+        <AddRecipeForm />
+
+        {/* Favorites and Recommendations */}
+        <FavoritesList />
+        <RecommendationsList />
+
+        {/* Routes */}
+        <Routes>
+          <Route path="/" element={<RecipeList />} />
+          <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
+        </Routes>
+
+        {/* Optional Link to Other Page (for example, for testing) */}
+        <div className="router-link">
+          <a href="/">Go to Recipe List</a>
+        </div>
+      </div>
     </Router>
   );
 }
