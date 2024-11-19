@@ -1,18 +1,38 @@
 import React, { useState } from "react";
 
 const RegistrationForm = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.username) newErrors.username = "Username is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.password) newErrors.password = "Password is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !email || !password) {
-      setError("All fields are required.");
-    } else {
-      setError("");
-      console.log({ username, email, password });
+
+    if (validateForm()) {
+      console.log("Form Submitted:", formData);
+      setErrors({});
+      // Simulate API call here
     }
   };
 
@@ -22,27 +42,32 @@ const RegistrationForm = () => {
         <label>Username:</label>
         <input
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
         />
+        {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
       </div>
       <div>
         <label>Email:</label>
         <input
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
         />
+        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
       </div>
       <div>
         <label>Password:</label>
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
         />
+        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
       </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
       <button type="submit">Register</button>
     </form>
   );
