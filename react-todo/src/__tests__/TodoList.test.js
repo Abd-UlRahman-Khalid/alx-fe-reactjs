@@ -1,5 +1,7 @@
+import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
-import TodoList from "./TodoList";
+import TodoList from "../components/TodoList";
 
 test("renders TodoList with initial todos", () => {
   render(<TodoList />);
@@ -22,17 +24,26 @@ test("adds a new todo", () => {
 test("toggles a todo", () => {
   render(<TodoList />);
   const todo = screen.getByText("Learn React");
+
+  // Click to toggle the todo
   fireEvent.click(todo);
 
+  // Check if the todo is completed (style updated)
   expect(todo).toHaveStyle("text-decoration: line-through");
+
+  // Click again to toggle back
+  fireEvent.click(todo);
+  expect(todo).toHaveStyle("text-decoration: none");
 });
 
 test("deletes a todo", () => {
   render(<TodoList />);
   const todo = screen.getByText("Learn React");
-  const deleteButton = todo.nextSibling;
+  const deleteButton = screen.getByText("Delete");
 
+  // Click the delete button
   fireEvent.click(deleteButton);
 
+  // Ensure the todo is removed from the document
   expect(screen.queryByText("Learn React")).not.toBeInTheDocument();
 });
