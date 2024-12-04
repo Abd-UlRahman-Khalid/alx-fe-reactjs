@@ -20,7 +20,7 @@ const RecipeDetail = () => {
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto shadow">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">{recipe.title}</h1>
       <img
         src={recipe.image}
