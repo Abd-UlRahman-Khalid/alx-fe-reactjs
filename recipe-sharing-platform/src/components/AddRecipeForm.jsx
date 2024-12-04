@@ -44,21 +44,21 @@ const AddRecipeForm = () => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">
+    <div className="p-6 max-w-4xl mx-auto bg-white shadow-xl rounded-lg mt-6">
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6 text-center">
         Add a New Recipe
       </h1>
       {submitted && (
-        <div className="p-4 mb-4 text-green-800 bg-green-100 border border-green-200 rounded">
+        <div className="p-4 mb-6 text-green-800 bg-green-100 border border-green-200 rounded">
           Recipe submitted successfully!
         </div>
       )}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Recipe Title */}
         <div>
           <label
             htmlFor="title"
-            className="block text-lg font-medium text-gray-700"
+            className="block text-xl font-medium text-gray-700 mb-2"
           >
             Recipe Title
           </label>
@@ -68,7 +68,7 @@ const AddRecipeForm = () => {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-4 border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter recipe title"
           />
           {errors.title && (
@@ -80,7 +80,7 @@ const AddRecipeForm = () => {
         <div>
           <label
             htmlFor="ingredients"
-            className="block text-lg font-medium text-gray-700"
+            className="block text-xl font-medium text-gray-700 mb-2"
           >
             Ingredients (separate by commas)
           </label>
@@ -89,8 +89,8 @@ const AddRecipeForm = () => {
             name="ingredients"
             value={formData.ingredients}
             onChange={handleChange}
-            rows="3"
-            className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="4"
+            className="w-full p-4 border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="e.g., Flour, Sugar, Eggs"
           ></textarea>
           {errors.ingredients && (
@@ -102,7 +102,7 @@ const AddRecipeForm = () => {
         <div>
           <label
             htmlFor="steps"
-            className="block text-lg font-medium text-gray-700"
+            className="block text-xl font-medium text-gray-700 mb-2"
           >
             Preparation Steps
           </label>
@@ -111,8 +111,8 @@ const AddRecipeForm = () => {
             name="steps"
             value={formData.steps}
             onChange={handleChange}
-            rows="5"
-            className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="6"
+            className="w-full p-4 border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Describe the preparation steps"
           ></textarea>
           {errors.steps && (
@@ -121,12 +121,14 @@ const AddRecipeForm = () => {
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-200"
-        >
-          Submit Recipe
-        </button>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="w-full sm:w-auto bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+          >
+            Submit Recipe
+          </button>
+        </div>
       </form>
     </div>
   );
