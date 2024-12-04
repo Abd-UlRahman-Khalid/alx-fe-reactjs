@@ -14,17 +14,20 @@ const AddRecipeForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" })); // Clear error for the field
   };
 
   // Validate form
   const validate = () => {
     const newErrors = {};
-    if (!formData.title) newErrors.title = "Title is required.";
-    if (!formData.ingredients)
+    if (!formData.title.trim()) newErrors.title = "Title is required.";
+    if (!formData.ingredients.trim()) {
       newErrors.ingredients = "Ingredients are required.";
-    if (formData.ingredients.split(",").length < 2)
+    } else if (formData.ingredients.split(",").length < 2) {
       newErrors.ingredients = "Provide at least two ingredients.";
-    if (!formData.steps) newErrors.steps = "Preparation steps are required.";
+    }
+    if (!formData.steps.trim())
+      newErrors.steps = "Preparation steps are required.";
     return newErrors;
   };
 
@@ -38,6 +41,7 @@ const AddRecipeForm = () => {
       setFormData({ title: "", ingredients: "", steps: "" }); // Reset form
     } else {
       setErrors(validationErrors);
+      setSubmitted(false);
     }
   };
 
@@ -66,8 +70,13 @@ const AddRecipeForm = () => {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 ${
+              errors.title
+                ? "border-red-500 focus:ring-red-500"
+                : "border-gray-300 focus:ring-blue-500"
+            }`}
             placeholder="Enter recipe title"
+            aria-invalid={!!errors.title}
           />
           {errors.title && (
             <p className="text-red-600 text-sm mt-1">{errors.title}</p>
@@ -88,8 +97,13 @@ const AddRecipeForm = () => {
             value={formData.ingredients}
             onChange={handleChange}
             rows="3"
-            className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 ${
+              errors.ingredients
+                ? "border-red-500 focus:ring-red-500"
+                : "border-gray-300 focus:ring-blue-500"
+            }`}
             placeholder="e.g., Flour, Sugar, Eggs"
+            aria-invalid={!!errors.ingredients}
           ></textarea>
           {errors.ingredients && (
             <p className="text-red-600 text-sm mt-1">{errors.ingredients}</p>
@@ -110,8 +124,13 @@ const AddRecipeForm = () => {
             value={formData.steps}
             onChange={handleChange}
             rows="5"
-            className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 ${
+              errors.steps
+                ? "border-red-500 focus:ring-red-500"
+                : "border-gray-300 focus:ring-blue-500"
+            }`}
             placeholder="Describe the preparation steps"
+            aria-invalid={!!errors.steps}
           ></textarea>
           {errors.steps && (
             <p className="text-red-600 text-sm mt-1">{errors.steps}</p>
