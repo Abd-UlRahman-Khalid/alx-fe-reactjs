@@ -35,6 +35,9 @@ const HomePage = () => {
           </div>
         ))}
       </div>
+      <Link to="/add-recipe" className="text-blue-500 hover:underline">
+        Add New Recipe
+      </Link>
     </div>
   );
 };
