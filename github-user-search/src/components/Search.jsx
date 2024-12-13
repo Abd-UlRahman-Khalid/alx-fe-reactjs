@@ -1,75 +1,102 @@
 import React, { useState } from "react";
-import { fetchUserData } from "../services/githubService";
+import { searchGitHubUsers } from "../services/githubService";
 
 function Search() {
-  const [username, setUsername] = useState("");
-  const [user, setUser] = useState(null);
+  const [formData, setFormData] = useState({
+    username: "",
+    location: "",
+    minRepos: "",
+  });
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setUser(null); // Clear previous user data
+    setUsers([]);
 
     try {
-      const userData = await fetchUserData(username);
-      setUser(userData);
+      const userResults = await searchGitHubUsers(formData);
+      setUsers(userResults.items); // "items" contains the user list
     } catch (err) {
-      setError("Looks like we cant find the user"); // Error message here
+      setError("Looks like we cant find the user");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-      <div className="max-w-md w-full bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-          GitHub User Search
-        </h1>
-        <form onSubmit={handleSearch} className="space-y-4">
+    <div className="p-6 max-w-2xl mx-auto">
+      <form onSubmit={handleSearch} className="bg-gray-100 p-4 rounded shadow">
+        <div className="mb-4">
+          <label className="block text-gray-700">Username:</label>
           <input
             type="text"
-            placeholder="Search GitHub username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            placeholder="GitHub username"
           />
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-          >
-            Search
-          </button>
-        </form>
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Location:</label>
+          <input
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            placeholder="Location (e.g., New York)"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Minimum Repositories:</label>
+          <input
+            type="number"
+            name="minRepos"
+            value={formData.minRepos}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            placeholder="e.g., 10"
+          />
+        </div>
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          Search
+        </button>
+      </form>
 
-        {/* Conditional rendering for loading, error, and user states */}
-        {loading && (
-          <p className="text-center text-blue-500 mt-4">Loading...</p>
-        )}
-        {error && <p className="text-center text-red-500 mt-4">{error}</p>}
-        {user && (
-          <div className="mt-6 text-center">
+      {loading && <p className="mt-4">Loading...</p>}
+      {error && <p className="mt-4 text-red-500">{error}</p>}
+
+      <div className="mt-4">
+        {users.map((user) => (
+          <div key={user.id} className="p-4 bg-white rounded shadow mb-4">
             <img
               src={user.avatar_url}
-              alt={`${user.login}'s avatar`}
-              className="w-24 h-24 rounded-full mx-auto border border-gray-300"
+              alt={user.login}
+              className="w-12 h-12 rounded-full"
             />
-            <h2 className="mt-4 text-xl font-semibold text-gray-700">
-              {user.name || user.login}
-            </h2>
+            <h3 className="text-lg font-bold">{user.login}</h3>
+            <p>Location: {user.location || "N/A"}</p>
+            <p>Repositories: {user.public_repos || "N/A"}</p>
             <a
               href={user.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 underline hover:text-blue-700"
+              className="text-blue-500 underline"
             >
               View Profile
             </a>
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
