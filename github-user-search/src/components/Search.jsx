@@ -9,6 +9,7 @@ function Search() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    // setLoading
     setLoading(true);
     setError(null);
     setUser(null); // Clear previous user data
