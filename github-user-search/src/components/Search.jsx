@@ -11,12 +11,13 @@ function Search() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setUser(null); // Clear previous user data
 
     try {
       const userData = await fetchUserData(username);
       setUser(userData);
     } catch (err) {
-      setError("Looks like we can’t find the user");
+      setError("Looks like we can't find the user"); // Error message here
     } finally {
       setLoading(false);
     }
@@ -34,6 +35,7 @@ function Search() {
         <button type="submit">Search</button>
       </form>
 
+      {/* Conditional rendering for loading, error, and user states */}
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {user && (
