@@ -14,8 +14,8 @@ function Search() {
     setUser(null); // Clear previous user data
 
     try {
-      // Call fetchUserData function and pass the username as a parameter
-      const userData = await fetchUserData({ username });
+      // Call fetchUserData function and pass the username as a string (not wrapped in an object)
+      const userData = await fetchUserData(username);
       setUser(userData);
     } catch (err) {
       setError("Looks like we can't find the user");
