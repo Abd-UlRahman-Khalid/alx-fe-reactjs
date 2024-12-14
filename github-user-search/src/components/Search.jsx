@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { fetchUserData } from "../services/githubService"; // Import only what's needed
+// import { searchGitHubUsers } from "../services/githubService";
+import { fetchUserData } from "../services/githubService"; // Ensure this is imported
 
 function Search() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ function Search() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  // target.value
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -23,8 +25,16 @@ function Search() {
     setUsers([]);
 
     try {
-      const fetchedUsers = await fetchUserData(formData); // Fetch user data directly
-      setUsers(fetchedUsers);
+      // First, search GitHub users with the provided criteria
+      const userResults = await searchGitHubUsers(formData);
+      const fetchedUsers = await Promise.all(
+        userResults.items.map(async (user) => {
+          // For each user, fetch more detailed information using fetchUserData
+          const detailedUser = await fetchUserData(user.login);
+          return detailedUser; // Return the detailed user data
+        })
+      );
+      setUsers(fetchedUsers); // Set users with detailed data
     } catch (err) {
       setError("Looks like we cant find the user");
     } finally {
