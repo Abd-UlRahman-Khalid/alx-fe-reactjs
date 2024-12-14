@@ -16,6 +16,7 @@ function Search() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  // target.value
 
   const handleSearch = async (e) => {
     e.preventDefault();
