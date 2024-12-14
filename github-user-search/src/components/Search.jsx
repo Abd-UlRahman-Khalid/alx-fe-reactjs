@@ -26,7 +26,7 @@ function Search() {
       const fetchedUsers = await fetchUserData(formData); // Fetch user data directly
       setUsers(fetchedUsers);
     } catch (err) {
-      setError("Looks like we can't find the user");
+      setError("Looks like we cant find the user");
     } finally {
       setLoading(false);
     }
